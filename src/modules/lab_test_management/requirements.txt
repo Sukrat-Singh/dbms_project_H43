@@ -1,6 +1,6 @@
-streamlit
-streamlit-option-menu
-matplotlib
 pymongo
 python-dotenv
+streamlit
+streamlit-option-menu
 pandas
+matplotlib
