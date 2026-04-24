@@ -11,6 +11,7 @@ import os
 from pymongo import MongoClient, ASCENDING
 from pymongo.errors import CollectionInvalid
 from dotenv import load_dotenv
+import streamlit as st
 
 load_dotenv()
 
@@ -21,19 +22,18 @@ _client = None
 #  CONNECTION
 # ══════════════════════════════════════════════════════════════════════
 def get_client():
-    """Return a singleton MongoClient instance."""
     global _client
     if _client is None:
-        mongo_uri = os.getenv("MONGODB_URI")
+        mongo_uri = st.secrets.get("MONGODB_URI")  # ✅ FIX
         if not mongo_uri:
-            raise RuntimeError("Set MONGODB_URI in your .env file")
+            raise RuntimeError("MONGODB_URI not set in Streamlit secrets")
         _client = MongoClient(mongo_uri)
     return _client
 
 
 def get_db():
     """Return the project database handle."""
-    db_name = os.getenv("MONGO_DB_NAME", "lab_test_management")
+    db_name = st.secrets.get("MONGO_DB_NAME", "lab_test_management")
     return get_client()[db_name]
 
 
